@@ -3,7 +3,6 @@ export default class Mainframe {
     constructor(matchfield, cells) {
         this.matchfield = matchfield;
         this.cells = cells;
-        this.previous = [];
     }
 
     setRowConfig(node) {
@@ -15,24 +14,8 @@ export default class Mainframe {
         this.cells.push(cell);
     }
 
-    generatePreviousFrame() {
-        if(this.previous) {
-            this.cells.forEach(c => {
-                this.previous.forEach(p => {
-                    c.nxt = p;
-                });
-            });
-            this.previous.clear();
-            console.log(this.cells);
-            this.cells.forEach(c => {
-                c.update();
-            });
-        }
-    }
-
     generateNextFrame() {
         this.cells.forEach(c => {
-            this.previous.push(c.dead);
             let aliveRelatedCount = this.getAliveRelatedCount(c);
             c.nxt = undefined;
             if(c.dead) {

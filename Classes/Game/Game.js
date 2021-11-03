@@ -3,11 +3,15 @@ export default class Game {
     constructor(callback) {
         this.running = false;
         this.callback = callback;
+        this.lastFrame = Date.now();
     }
 
     tick() {
         if(this.running) {
-            this.callback();
+            if(Date.now() - this.lastFrame >= (1000/30)) {
+                this.callback();
+                this.lastFrame = Date.now();
+            }
             requestAnimationFrame(() => this.tick());
         }
     }

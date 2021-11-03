@@ -10,6 +10,10 @@ export default class GolGame extends Game {
         this.mainframe = new Mainframe(document.getElementById("mainframe"), []);
         this.init();
         this.generate();
+        this.switchState = false;
+        this.mainframe.matchfield.addEventListener("mousedown", (e) => this.mousedown(e));
+        this.mainframe.matchfield.addEventListener("mousemove", (e) => this.mousemove(e));
+        document.querySelector("html").addEventListener("mouseup", () => this.mouseup());
     }
 
     init() {
@@ -30,16 +34,11 @@ export default class GolGame extends Game {
                 let cell = new Cell(c, r);
                 this.mainframe.addCell(cell);
                 row.appendChild(cell.node);
-                cell.node.addEventListener("click", e => cell.changeStatus());
             }
         }
     }
 
     tick() {
-        if(this.running) {
-            this.frames.add();
-            this.displayFps();
-        }
         super.tick();
     }
 
@@ -62,10 +61,34 @@ export default class GolGame extends Game {
     }
 
     nextStep() {
+        if(this.running) {
+            this.frames.add();
+            this.displayFps();
+        }
         this.mainframe.generateNextFrame();
     }
 
-    previousStep() {
-        this.mainframe.generatePreviousFrame();
+    mousedown(e) {
+        if(!this.running) {
+            this.switchState = true;
+            this.last = this.mainframe.getCellByCoords(e.target.getAttribute("data-value-x") - 0, e.target.getAttribute("data-value-y") - 0);
+            this.last.changeStatus();
+        }
+    }
+
+    mousemove(e) {
+        if(!this.running) {
+            if(this.switchState) {
+                let tmp = this.mainframe.getCellByCoords(e.target.getAttribute("data-value-x") - 0, e.target.getAttribute("data-value-y") - 0);
+                if(tmp !== this.last) {
+                    this.last = tmp;
+                    this.last.changeStatus();
+                }
+            }
+        }
+    }
+
+    mouseup() {
+        this.switchState = false;
     }
 }

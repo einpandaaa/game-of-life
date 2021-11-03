@@ -7,6 +7,8 @@ export default class Cell {
         let node = document.createElement('div');
         node.className = 'entity';
         node.classList.add("dead");
+        node.setAttribute("data-value-x", x);
+        node.setAttribute("data-value-y", y);
         this.node = node;
     }
 
