@@ -91,4 +91,11 @@ export default class GolGame extends Game {
     mouseup() {
         this.switchState = false;
     }
+
+    reset() {
+        this.mainframe.cells.forEach(c => {
+            c.dead = true;
+            c.updateNode();
+        });
+    }
 }

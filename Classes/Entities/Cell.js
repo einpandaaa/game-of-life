@@ -34,4 +34,14 @@ export default class Cell {
             this.node.classList.add("alive");
         }
     }
+
+    updateNode() {
+        if(this.dead) {
+            this.node.classList.remove("alive");
+            this.node.classList.add("dead");
+        } else {
+            this.node.classList.remove("dead");
+            this.node.classList.add("alive");
+        }
+    }
 }
