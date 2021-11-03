@@ -29,7 +29,6 @@ export default class LinkedList {
 
     getSize() {
         let ts = Date.now();
-        console.log(this.size);
         while (this.head && ts - this.head.value > 1000) {
             this.remove();
         }
